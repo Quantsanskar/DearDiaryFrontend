@@ -12,6 +12,7 @@ export default function RegisterPage() {
     password: "",
     confirmPassword: "",
     display_name: "",
+    email: "", // Added email field
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const router = useRouter()
@@ -44,6 +45,7 @@ export default function RegisterPage() {
         username: formData.username,
         password: formData.password,
         display_name: formData.display_name,
+        email: formData.email, // Added email to registration
       })
       toast.success("Welcome to Digital Diary!")
       router.push("/")
@@ -142,6 +144,21 @@ export default function RegisterPage() {
                 onChange={handleChange}
                 className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-colors"
                 placeholder="How should we call you?"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">
+                Email
+              </label>
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                required
+                className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-colors"
+                placeholder="Enter your email address"
               />
             </div>
 
