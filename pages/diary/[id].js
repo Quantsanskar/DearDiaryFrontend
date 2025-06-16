@@ -14,7 +14,7 @@ export default function DiaryPage() {
   const [loading, setLoading] = useState(true)
   const router = useRouter()
   const params = useParams()
-  const { id } = params
+  const id = params?.id
 
   useEffect(() => {
     if (id) {
@@ -23,6 +23,8 @@ export default function DiaryPage() {
   }, [id])
 
   const loadUserAndDiary = async () => {
+    if (!id) return
+
     try {
       const userData = await authService.getProfile()
       setUser(userData)
@@ -68,6 +70,16 @@ export default function DiaryPage() {
     )
   }
 
+  if (!id) {
+    return (
+      <Layout>
+        <div className="min-h-screen bg-gray-900 flex items-center justify-center">
+          <div className="w-12 h-12 border-4 border-gray-700 border-t-blue-500 rounded-full animate-spin"></div>
+        </div>
+      </Layout>
+    )
+  }
+
   if (!diary) {
     return (
       <Layout user={user} onLogout={handleLogout}>
@@ -77,8 +89,8 @@ export default function DiaryPage() {
               <span className="text-2xl text-gray-500">📔</span>
             </div>
             <h2 className="text-2xl font-bold text-gray-900 mb-4">Diary not found</h2>
-            <button 
-              onClick={handleBack} 
+            <button
+              onClick={handleBack}
               className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
             >
               Go Back Home
