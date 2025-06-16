@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { useRouter } from "next/router"
+import { useRouter } from "next/navigation"
 import Layout from "../components/Layout"
 import DiaryList from "../components/DiaryList"
 import { authService } from "../services/authService"
@@ -35,7 +35,7 @@ export default function Dashboard() {
 
   const handleLogout = () => {
     authService.logout()
-    toast.success("See you soon! 👋")
+    toast.success("Logged out successfully")
     router.push("/")
   }
 
@@ -46,10 +46,29 @@ export default function Dashboard() {
   if (loading) {
     return (
       <Layout>
-        <div className="min-h-screen flex items-center justify-center">
+        <div className="min-h-screen bg-gray-900 flex items-center justify-center">
           <div className="text-center">
-            <div className="loading-spinner h-12 w-12 mx-auto mb-4"></div>
-            <p className="text-gray-600">Loading your diaries...</p>
+            {/* Skeleton Loading */}
+            <div className="space-y-8">
+              <div className="space-y-4">
+                <div className="h-8 bg-gray-700 rounded-lg w-64 mx-auto animate-pulse"></div>
+                <div className="h-4 bg-gray-800 rounded w-96 mx-auto animate-pulse"></div>
+              </div>
+
+              <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 max-w-6xl mx-auto px-4">
+                {[...Array(6)].map((_, i) => (
+                  <div key={i} className="bg-gray-800/50 border border-gray-700 rounded-xl p-6 animate-pulse">
+                    <div className="w-14 h-14 bg-gray-700 rounded-xl mx-auto mb-6"></div>
+                    <div className="h-6 bg-gray-700 rounded mb-3"></div>
+                    <div className="h-4 bg-gray-800 rounded mb-6"></div>
+                    <div className="flex justify-between">
+                      <div className="h-6 bg-gray-700 rounded w-20"></div>
+                      <div className="h-6 bg-gray-700 rounded w-16"></div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </Layout>
@@ -58,12 +77,16 @@ export default function Dashboard() {
 
   return (
     <Layout user={user} onLogout={handleLogout}>
-      <div className="max-w-6xl mx-auto px-4 py-8">
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-800 mb-2">Your Diaries</h1>
-          <p className="text-gray-600">Choose a diary to read or write in</p>
+      <div className="min-h-screen bg-gray-900">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <div className="text-center mb-16">
+            <h1 className="text-4xl font-bold text-white mb-4">Your Diaries</h1>
+            <p className="text-xl text-gray-300 max-w-2xl mx-auto">
+              Manage your personal thoughts and shared memories in one secure place
+            </p>
+          </div>
+          <DiaryList diaries={diaries} onDiarySelect={handleDiarySelect} user={user} />
         </div>
-        <DiaryList diaries={diaries} onDiarySelect={handleDiarySelect} user={user} />
       </div>
     </Layout>
   )

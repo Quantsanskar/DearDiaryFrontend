@@ -1,33 +1,20 @@
-import { formatDistanceToNow, format, isToday, isYesterday } from "date-fns"
-
 export const formatDate = (dateString) => {
   const date = new Date(dateString)
-
-  if (isToday(date)) {
-    return `Today at ${format(date, "h:mm a")}`
-  }
-
-  if (isYesterday(date)) {
-    return `Yesterday at ${format(date, "h:mm a")}`
-  }
-
-  return format(date, "MMM d, yyyy 'at' h:mm a")
-}
-
-export const formatRelativeTime = (dateString) => {
-  return formatDistanceToNow(new Date(dateString), { addSuffix: true })
+  return date.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  })
 }
 
 export const formatShortDate = (dateString) => {
   const date = new Date(dateString)
-
-  if (isToday(date)) {
-    return format(date, "h:mm a")
-  }
-
-  if (isYesterday(date)) {
-    return "Yesterday"
-  }
-
-  return format(date, "MMM d")
+  return date.toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  })
 }

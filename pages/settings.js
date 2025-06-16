@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { useRouter } from "next/router"
+import { useRouter } from "next/navigation"
 import Layout from "../components/Layout"
 import Settings from "../components/Settings"
 import { authService } from "../services/authService"
@@ -30,7 +30,7 @@ export default function SettingsPage() {
 
   const handleLogout = () => {
     authService.logout()
-    toast.success("See you soon! 👋")
+    toast.success("Logged out successfully")
     router.push("/")
   }
 
@@ -41,8 +41,8 @@ export default function SettingsPage() {
   if (loading) {
     return (
       <Layout>
-        <div className="min-h-screen flex items-center justify-center">
-          <div className="loading-spinner h-12 w-12"></div>
+        <div className="min-h-screen flex items-center justify-center bg-gray-50">
+          <div className="w-12 h-12 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin"></div>
         </div>
       </Layout>
     )
@@ -50,8 +50,10 @@ export default function SettingsPage() {
 
   return (
     <Layout user={user} onLogout={handleLogout}>
-      <div className="max-w-2xl mx-auto px-4 py-8">
-        <Settings user={user} onBack={handleBack} />
+      <div className="min-h-screen bg-gray-50">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <Settings user={user} onBack={handleBack} />
+        </div>
       </div>
     </Layout>
   )
